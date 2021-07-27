@@ -61,59 +61,90 @@ let quotes = [
 ]
 
 
-console.log(quotes);
+console.log( quotes );
+
+
 
 /***
  * `getRandomQuote` function
 ***/
 
-function getRandomQuote( array ) {
-  // 1. Create a variable that generates a random number
+function getRandomQuote( ) {
+  // Variable that generates a random number
   // between zero and the last index in the `quotes` array
   let randomNumber = Math.floor( Math.random() * quotes.length );
-  // 2. Use the random number variable and bracket notation 
-  // to grab a random object from the `quotes` array, and 
-  // store it in a variable
-  let randomQuote = array[randomNumber];
   
-
-  // 3. Return the variable storing the random quote object
-  return randomQuote;
+  // Return index vaule as randomNumber in `quotes` array
+  return quotes[randomNumber]
+  
 }
 
-let results = getRandomQuote(quotes);
-console.log(results)
+// Assign getRandomQuote providing `quotes` array as a parameter to results variable
+let results = getRandomQuote( quotes );
+
+// Displaying random quote by logging results variable to the console.
+console.log( results )
+
+//Array of random background colors
+let colors = [
+  "#7FDBFF",
+  "#FFDC00",
+  "#0074D9",
+  "#39CCCC",
+  "#001f3f",
+  "#FF4136",
+  "#85144b"
+]
+
 
 
 /***
  * `printQuote` function
 ***/
-function printQuote(message) {
+function printQuote() {
   // 1. Create a variable that calls the getRandomQuote() 
   // function
-  let randomQuoteObject = getRandomQuote()
-  // 2. Create a variable that initiates your HTML string with 
-  // the first two <p></p> elements, their classNames, 
-  // and the quote and source properties, but leave off 
-  // the second closing `</p>` tag for now
-  let outcome = "<p class = 'quote'>" + randomQuote.quote + "<p class = 'source'" + randomQuote.source + "</p>"
-  // 3. Use an if statement to check if the citation property 
-  // exists, and if it does, concatenate a <span></span> 
-  // element, appropriate className, and citation property 
-  // to the HTML string
+  let randomQuoteObject = getRandomQuote();
+  // Setting a variable with empty string to add html string below
+  let outcome = '';  
 
-  // 4. Use an if statement to check of the year property exists, 
-  // and if it does, concatenate a <span></span> element, 
-  // appropriate className, and year property to the HTML 
-  //string
-
-  // 5. After the two if statements, concatenate the closing </p> 
-  // tag to the HTML string
-
-  // 6. set the innerHTML of the quote-box div to equal the 
-  // complete HTML string
+    //Selects the body from the css file to add background colors and assigned to a variable
+    let CSSbody = document.querySelector('body');
+    //Loop picks a random color
+    for (let i = 0; i < colors.length; i++) {
+      let randColor = Math.floor( Math.random() * colors.length )
+      CSSbody.style.background = colors[ randColor ]
 }
 
+  // Shows the quote from the html file
+  outcome += "<p class = 'quote'>" + randomQuoteObject.quote + "</p>";
+  outcome += "<p class = 'source'>" + randomQuoteObject.source + "</p>";
+                
+  // If statements check what properties are contained in an object
+  if ( "citation" in randomQuoteObject ) {
+    outcome += "<span class = 'citation'>" + randomQuoteObject.citation + "</span>"
+  }
+
+  if ( "year" in randomQuoteObject ) {
+    outcome += "<span class = 'year'>" + randomQuoteObject.year + "</span>"
+  }
+  
+  // Getting #quote-box id element and set it to html string
+  document.getElementById('quote-box').innerHTML = outcome;
+
+  //Return the function
+  return outcome;
+}
+
+printQuote();
+
+// Set time to update the page every 10 seconds
+function update() {
+  //Location.reload() method reloads the current URL, like the Refresh button.
+  document.location.reload()
+}
+
+setTimeout(update, 10000);
 
 /***
  * click event listener for the print quote button
